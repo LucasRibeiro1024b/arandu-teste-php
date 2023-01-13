@@ -402,6 +402,8 @@ border: rgb(0, 0, 0) 1px solid;
 
 @endforeach
 
+{{session('coin')->render()}}
+
 </style>
 
 <script src="{{ asset('js/app.js') }}"></script>

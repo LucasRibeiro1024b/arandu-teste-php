@@ -2,11 +2,12 @@
 
 namespace App\Contracts;
 
+use App\Constants\Movement;
+
 abstract class GameObject
 {
     private $_x;
     private $_y;
-
 
     public function __construct(int $x, int $y)
     {
@@ -53,26 +54,45 @@ abstract class GameObject
     public function move($direction)
     {
         switch ($direction) {
-            case 'ArrowUp':
-                $this->_y--;
+            case Movement::ARROW_UP:
+                if (!$this->passedTableLimit($this->_y - 1)) {
+                    $this->_y--;
+                }
                 break;
 
-            case 'ArrowDown':
-                $this->_y++;
+            case Movement::ARROW_DOWN:
+                if (!$this->passedTableLimit($this->_y - 1)) {
+                    $this->_y++;
+                }
                 break;
 
-            case 'ArrowLeft':
-                $this->_x--;
+            case Movement::ARROW_LEFT:
+                if (!$this->passedTableLimit($this->_y - 1)) {
+                    $this->_x--;
+                }
                 break;
 
-            case 'ArrowRight':
-                $this->_x++;
+            case Movement::ARROW_RIGHT:
+                if (!$this->passedTableLimit($this->_y - 1)) {
+                    $this->_x++;
+                }
                 break;
 
             default:
                 # code...
                 break;
         }
+    }
+
+    /**
+     * Checa se movimento passou dos limites
+     * 
+     * @param int ARROW
+     * @return bool
+     */
+    public function passedTableLimit(int $move)
+    {
+        return ($move < 0 || $move > 33);
     }
 
     /**

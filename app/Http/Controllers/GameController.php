@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Constants\Map;
+use App\Contracts\GameObject;
+use App\Models\Coin;
 use App\Models\Enemy;
 use App\Models\Player;
 use Illuminate\Http\Request;
@@ -18,6 +20,9 @@ class GameController extends Controller
 
     /** @var Collection<Enemy> */
     public $enemies;
+
+    /** @var Coin */
+    public $coin;
 
     /**
      * Carrega as instâncias necessárias da sessão ou cria as
@@ -52,6 +57,11 @@ class GameController extends Controller
             0
         );
 
+        $this->coin = session(
+            'coin',
+            new Coin()
+        );
+
     }
 
     /**
@@ -65,6 +75,7 @@ class GameController extends Controller
             'player' => $this->player,
             'enemies' => $this->enemies,
             'score' => $this->score,
+            'coin' => $this->coin
         ]);
     }
 
@@ -81,10 +92,12 @@ class GameController extends Controller
 
         $this->player->move($request->key);
 
+        $this->score += 10;
+
         $this->enemies->each(function (Enemy $enemy) {
             $enemy->moveRandomDirection();
         });
-
+            
         $this->writeToSession();
     }
 
@@ -96,8 +109,20 @@ class GameController extends Controller
     public function scene()
     {
         $this->load();
+
+        if ($this->coin->isCollidingWith($this->player)) {
+            $this->score += 1000;
+            $this->coin = new Coin();
+        }
+
         $this->writeToSession();
 
+        foreach ($this->enemies as $enemy) {
+            if($enemy->isCollidingWith($this->player) || $this->player->isCollidingWith($enemy)) {
+                return redirect('/gameover');
+            }
+        }
+        
         return view('game');
     }
 

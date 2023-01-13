@@ -53,6 +53,6 @@ Usando as setas do teclado é possível mover o jogador. Sempre que o jogador se
 
 3. Adicione uma mecânica de jogo que evite que o jogador ou inimgo saiam dos limites do tabuleiro. Escolha entre um dos dois: 'colidir' com as paredes, impedindo o movimento na direção do fim do tabuleiro OU 'teletransporte' para o outro lado da tela (ex: ao sair pela direita, aparece na mesma linha, na casa da esquerda).
 
-4. Adicione a mecânica de 'game-over', que deve ser acionada se, após a movimentação do jogador e dos inmigos, o jogador estiver na mesma casa que um inimigo. Dicas: os models que tem como base o `GameObject` possuem o método `isCollidingWith($object)`, que retorna `true` caso o objeto passado como argumento esteja na mesma casa. Para acionar o game-over, utilizar um `redirect` para a named view `gameover`.
+4. Adicione a mecânica de 'game-over', que deve ser acionada se, após a movimentação do jogador e dos inimigos, o jogador estiver na mesma casa que um inimigo. Dicas: os models que tem como base o `GameObject` possuem o método `isCollidingWith($object)`, que retorna `true` caso o objeto passado como argumento esteja na mesma casa. Para acionar o game-over, utilizar um `redirect` para a named view `gameover`.
 
 5. **EXTRA** - Crie um novo `GameObject` para representar a moeda. O tabuleiro terá uma moeda por vez, que será colocada em uma posição aleatória. O jogador, ao colidir com a moeda, ganhará 1.000 pontos, e a moeda será colocada em uma outra casa aleatória do tabuleiro.
